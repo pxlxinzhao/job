@@ -21,6 +21,12 @@ router.post('/login',　function(req, res){
   
   if (username === 'patrick' && password === 'stufie'){
     validSession.push(req.sessionID);
+    
+    //this is very bad. LOL
+    if (validSession.length > 20){
+      validSession.pop();
+    }
+    
     console.log('Add session Id: ', req.sessionID);
   }
   res.redirect('/homepage');
