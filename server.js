@@ -29,10 +29,10 @@ router.post('/login',　function(req, res){
     
     console.log('Add session Id: ', req.sessionID);
   }
-  res.redirect('/homepage');
+  res.redirect('/home');
 })
 
-router.get('/homepage', function(req, res) {
+router.get('/home', function(req, res) {
     if (validSession.indexOf(req.sessionID) > -1){
       res.sendFile(path.join(__dirname, 'client/homepage.html'));
     }else{
