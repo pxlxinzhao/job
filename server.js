@@ -20,21 +20,25 @@ router.post('/login',　function(req, res){
   var password = req.body.password;
   
   if (username === 'patrick' && password === 'stufie'){
-    validSession.push(req.sessionID);
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    
+    if (validSession.indexOf(ip) === -1){
+      validSession.push(ip);
+    }
     
     //this is very bad. LOL
     if (validSession.length > 20){
       validSession.pop();
     }
-    
-    console.log('Add session Id: ', req.sessionID);
   }
   res.redirect('/home');
 })
 
 router.get('/home', function(req, res) {
-    if (validSession.indexOf(req.sessionID) > -1){
-      res.sendFile(path.join(__dirname, 'client/homepage.html'));
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  
+    if (validSession.indexOf(ip) > -1){
+      res.sendFile(path.join(__dirname, 'client/home.html'));
     }else{
       res.redirect('/');
     }
